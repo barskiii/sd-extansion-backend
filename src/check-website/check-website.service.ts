@@ -41,10 +41,10 @@ export class CheckWebsiteService {
   // Saves url to db
   async saveScrapedData(url, scam) {
     let data = {}
-    if (scam.isItScam) {
+    if (scam.IsItScam) {
       data = {
         url: url,
-        isItScam: scam.isItScam,
+        isItScam: scam.IsItScam,
         category: scam.details.category,
         description: scam.details.description,
         article: scam.details.article

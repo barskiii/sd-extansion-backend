@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { CheckWebsiteModule } from './check-website/check-website.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -15,6 +16,10 @@ import { MongooseModule } from '@nestjs/mongoose';
               }),
               inject: [ConfigService],
             }),
+            ThrottlerModule.forRoot({
+              ttl: 60,
+              limit: 10,
+            }),       
 
             
             CheckWebsiteModule,

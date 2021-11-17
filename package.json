@@ -12,7 +12,7 @@
     "start": "npx @nestjs/cli start",
     "start:dev": "npx @nestjs/cli start --watch",
     "start:debug": "npx @nestjs/cli start --debug --watch",
-    "start:prod": "node dist/src/main.js",
+    "start:prod": "node dist/main.js",
     "prestart:prod": "npm run build",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",

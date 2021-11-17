@@ -27,11 +27,12 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^9.0.1",
     "@nestjs/platform-express": "^8.0.0",
+    "class-validator": "^0.13.1",
     "mongoose": "^6.0.13",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "scam-directory-scraper": "^1.0.8"
+    "scam-directory-scraper": "^1.0.9"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

@@ -11,13 +11,13 @@ export class Scam {
   @Prop({type: Boolean, required: true})
   isItScam: boolean
 
-  @Prop({type: String, required: true})
+  @Prop({type: String})
   category: string
 
-  @Prop({type: String, required: true})
+  @Prop({type: String})
   description: string
 
-  @Prop({type: String, required: true})
+  @Prop({type: String})
   article: string
 }
 

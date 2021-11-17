@@ -1,26 +1,64 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCheckWebsiteDto } from './dto/create-check-website.dto';
-import { UpdateCheckWebsiteDto } from './dto/update-check-website.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Scam, ScamDocument } from './entities/scam.model';
+import { isItScam } from 'scam-directory-scraper'
 
 @Injectable()
 export class CheckWebsiteService {
-  create(createCheckWebsiteDto: CreateCheckWebsiteDto) {
-    return 'This action adds a new checkWebsite';
+  constructor (@InjectModel(Scam.name) private scamModel: Model<ScamDocument>) {}
+
+  // Checks url in database
+  async searchCollection(url) {
+    const scam = await this.scamModel.findOne({url: url})
+
+    if (scam && scam.isItScam == true) {
+      return {
+        isItScam: true,
+        details: {
+          url: scam.url,
+          category: scam.category,
+          description: scam.description,
+          article: scam.article
+        }
+      }
+    } else if (scam && scam.isItScam == false) {
+      return {
+        isItScam: false,
+        details: {}
+      }
+    }
+    return null
   }
 
-  findAll() {
-    return `This action returns all checkWebsite`;
+  // Checks url on scam.directory
+  async scrapDirectory(url) {
+    const scam = await isItScam(url)
+    
+    return scam
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} checkWebsite`;
-  }
+  // Saves url to db
+  async saveScrapedData(url, scam) {
+    let data = {}
+    if (scam.isItScam) {
+      data = {
+        url: url,
+        isItScam: scam.isItScam,
+        category: scam.details.category,
+        description: scam.details.description,
+        article: scam.details.article
+      }
+    } else {
+      data = {
+        url: url,
+        isItScam: scam.isItScam
+      }
+    }
 
-  update(id: number, updateCheckWebsiteDto: UpdateCheckWebsiteDto) {
-    return `This action updates a #${id} checkWebsite`;
-  }
+    const document = new this.scamModel(data)
 
-  remove(id: number) {
-    return `This action removes a #${id} checkWebsite`;
+    await document.save()
+    
   }
 }
